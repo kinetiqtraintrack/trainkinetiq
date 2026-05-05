@@ -110,7 +110,7 @@ export default async function SocialStrip() {
 
         {/* Post grid */}
         {hasPosts ? (
-          <div className="grid grid-cols-3 gap-1.5">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
             {posts.slice(0, 9).map((post) => {
               const imgSrc =
                 post.media_type === "VIDEO"
