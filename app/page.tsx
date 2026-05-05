@@ -6,6 +6,7 @@ import CollectionsGrid from "./components/CollectionsGrid";
 import NewArrivals from "./components/NewArrivals";
 import AppBanner from "./components/AppBanner";
 import Reviews from "./components/Reviews";
+import SocialStrip from "./components/SocialStrip";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
         <NewArrivals />
         <AppBanner />
         <Reviews />
+        <SocialStrip />
       </main>
       <Footer />
     </>

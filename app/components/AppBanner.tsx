@@ -88,7 +88,9 @@ export default function AppBanner() {
             ))}
           </ul>
           <a
-            href="#"
+            href="https://apps.apple.com/app/id6759758630"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center bg-[#22c55e] text-[#111] px-7 py-3.5 text-xs font-black uppercase tracking-widest hover:bg-[#16a34a] transition-colors"
           >
             Download Free

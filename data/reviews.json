@@ -1,0 +1,18 @@
+[
+  {
+    "id": "r1",
+    "name": "Jordan M.",
+    "rating": 5,
+    "text": "The Obsidian collection is next level. The fabric moves with you and doesn't cling after a long lifting session. Worth every cent.",
+    "product": "Obsidian Compression Set",
+    "date": "2026-04-12"
+  },
+  {
+    "id": "r2",
+    "name": "Sam T.",
+    "rating": 5,
+    "text": "Kinetiq app changed how I train. The Readiness score actually made me take rest days seriously. Sleep Intelligence is scarily accurate.",
+    "product": "Kinetiq App — Early Access",
+    "date": "2026-04-28"
+  }
+]
