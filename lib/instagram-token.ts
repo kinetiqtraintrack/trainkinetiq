@@ -1,63 +1,72 @@
 /**
  * Instagram token management.
  *
- * Storage priority: Vercel KV → INSTAGRAM_ACCESS_TOKEN env var
+ * Storage: Upstash Redis (UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN)
+ * Falls back to INSTAGRAM_ACCESS_TOKEN env var if Redis is not configured.
  *
  * A Vercel Cron Job calls /api/instagram/refresh-token on the 1st of every
  * month. Instagram tokens last 60 days, so a monthly refresh keeps them alive
  * indefinitely without any manual intervention.
  */
 
-const KV_KEY = "instagram";
+const REDIS_KEY = "instagram_token";
 
-interface StoredTokenData extends Record<string, unknown> {
-  token: string;
-  refreshed_at: number;
+function getRedisClient() {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+  const { Redis } = require("@upstash/redis");
+  return new Redis({ url, token }) as import("@upstash/redis").Redis;
 }
 
 /**
- * Returns the current valid token. Seeds KV from the env var on first call.
- * Falls back to the env var if KV is not configured.
+ * Returns the current valid token. Seeds Redis from the env var on first call.
+ * Falls back to the env var directly if Redis is not configured.
  */
 export async function getInstagramToken(): Promise<string | null> {
-  // Try KV (only available when @vercel/kv env vars are set)
-  try {
-    const { kv } = await import("@vercel/kv");
-    const stored = await kv.hgetall<StoredTokenData>(KV_KEY);
+  const redis = getRedisClient();
 
-    if (stored?.token) {
-      return stored.token;
+  if (redis) {
+    try {
+      const stored = await redis.get<string>(REDIS_KEY);
+      if (stored) return stored;
+
+      // Redis is empty — seed it from the env var
+      const envToken = process.env.INSTAGRAM_ACCESS_TOKEN;
+      if (envToken) {
+        await redis.set(REDIS_KEY, envToken);
+        return envToken;
+      }
+      return null;
+    } catch {
+      // Redis call failed — fall through to env var
     }
-
-    // KV is empty — seed it from the env var
-    const envToken = process.env.INSTAGRAM_ACCESS_TOKEN;
-    if (envToken) {
-      await kv.hset(KV_KEY, {
-        token: envToken,
-        refreshed_at: Date.now(),
-      } satisfies StoredTokenData);
-      return envToken;
-    }
-
-    return null;
-  } catch {
-    // KV env vars not set — fall back to env var directly
-    return process.env.INSTAGRAM_ACCESS_TOKEN ?? null;
   }
+
+  return process.env.INSTAGRAM_ACCESS_TOKEN ?? null;
 }
 
 /**
- * Calls the Instagram refresh endpoint and updates KV with the new token.
+ * Refreshes the Instagram token and stores the new one in Redis.
  * Returns the new token on success, null on failure.
  */
 export async function refreshInstagramToken(): Promise<string | null> {
+  const redis = getRedisClient();
+
+  // Get current token from Redis or env var
+  let currentToken: string | null = null;
+  if (redis) {
+    try {
+      currentToken = await redis.get<string>(REDIS_KEY);
+    } catch {
+      // ignore
+    }
+  }
+  currentToken = currentToken ?? process.env.INSTAGRAM_ACCESS_TOKEN ?? null;
+  if (!currentToken) return null;
+
+  // Call Instagram refresh endpoint
   try {
-    const { kv } = await import("@vercel/kv");
-    const stored = await kv.hgetall<StoredTokenData>(KV_KEY);
-    const currentToken = stored?.token ?? process.env.INSTAGRAM_ACCESS_TOKEN;
-
-    if (!currentToken) return null;
-
     const res = await fetch(
       `https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${currentToken}`
     );
@@ -67,10 +76,14 @@ export async function refreshInstagramToken(): Promise<string | null> {
     const newToken = data.access_token;
     if (!newToken) return null;
 
-    await kv.hset(KV_KEY, {
-      token: newToken,
-      refreshed_at: Date.now(),
-    } satisfies StoredTokenData);
+    // Persist the new token
+    if (redis) {
+      try {
+        await redis.set(REDIS_KEY, newToken);
+      } catch {
+        // ignore write failure — token was refreshed, just not persisted
+      }
+    }
 
     return newToken;
   } catch {
