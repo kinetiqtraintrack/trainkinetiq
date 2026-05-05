@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
+import CartDrawer from "./CartDrawer";
 
 const APP_STORE_URL = "https://apps.apple.com/app/id6759758630";
 const NAV_LINKS = ["Shop", "App", "Reviews"];
@@ -47,9 +48,11 @@ function CloseIcon() {
 
 export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { count } = useCart();
+  const { count, openCart } = useCart();
 
   return (
+    <>
+    <CartDrawer />
     <header className="bg-white sticky top-0 z-50 border-b border-gray-100">
       <nav className="max-w-screen-xl mx-auto px-6 flex items-center justify-between h-[60px]">
         {/* Logo — TODO: replace with <Image src="/logo.png"> once logo.png is committed */}
@@ -76,7 +79,7 @@ export default function Nav() {
           <button aria-label="Search" className="text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
             <SearchIcon />
           </button>
-          <button aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`} className="relative text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
+          <button onClick={openCart} aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`} className="relative text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
             <BagIcon />
             {count > 0 && (
               <span className="absolute -top-0.5 -right-0.5 bg-[#22c55e] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
@@ -96,7 +99,7 @@ export default function Nav() {
 
         {/* Mobile right actions */}
         <div className="flex md:hidden items-center gap-2">
-          <button aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`} className="relative text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
+          <button onClick={openCart} aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`} className="relative text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
             <BagIcon />
             {count > 0 && (
               <span className="absolute -top-0.5 -right-0.5 bg-[#22c55e] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
@@ -140,5 +143,6 @@ export default function Nav() {
         </div>
       )}
     </header>
+    </>
   );
 }

@@ -42,7 +42,7 @@ export default function SocialStrip() {
         {/* Header */}
         <div className="text-center mb-8">
           <p className="text-[11px] font-black uppercase tracking-[0.22em] text-gray-400 mb-1">
-            @kinetiqtraintrack
+            @kinetiq_app
           </p>
           <h2 className="text-[clamp(1.6rem,4vw,2.4rem)] font-black tracking-tighter text-[#111] uppercase mb-5">
             Follow the Journey
@@ -50,7 +50,7 @@ export default function SocialStrip() {
           {/* Social icons */}
           <div className="flex items-center justify-center gap-5">
             <a
-              href="https://instagram.com/jaycherubs"
+              href="https://instagram.com/kinetiq_app"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow on Instagram"
@@ -63,7 +63,7 @@ export default function SocialStrip() {
             </a>
             <span className="text-gray-300" aria-hidden="true">|</span>
             <a
-              href="https://tiktok.com/@jaycherubs"
+              href="https://www.tiktok.com/@kinetiq_app"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow on TikTok"
@@ -82,7 +82,7 @@ export default function SocialStrip() {
           {GRADIENT_TILES.map((gradient, i) => (
             <a
               key={i}
-              href="https://instagram.com/jaycherubs"
+              href="https://instagram.com/kinetiq_app"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View post ${i + 1} on Instagram`}

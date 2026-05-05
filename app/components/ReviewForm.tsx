@@ -32,7 +32,11 @@ function StarSelector({
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export default function ReviewForm() {
+interface Props {
+  onReviewSubmitted?: (review: { name: string; rating: number; text: string }) => void;
+}
+
+export default function ReviewForm({ onReviewSubmitted }: Props) {
   const [rating, setRating] = useState(0);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
@@ -69,6 +73,7 @@ export default function ReviewForm() {
         throw new Error(data.error || "Submission failed.");
       }
 
+      onReviewSubmitted?.({ name: name.trim(), rating, text: text.trim() });
       setStatus("success");
     } catch (err) {
       setStatus("error");
