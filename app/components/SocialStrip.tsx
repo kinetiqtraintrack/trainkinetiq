@@ -26,7 +26,7 @@ function TikTokIcon() {
   );
 }
 
-const GRADIENT_TILES = [
+const GRADIENT_FALLBACK = [
   "from-[#0a0a0a] to-[#22c55e]",
   "from-[#0d1b2a] to-[#00E5FF]",
   "from-[#1a0f00] to-[#f59e0b]",
@@ -35,7 +35,37 @@ const GRADIENT_TILES = [
   "from-[#0d1b2a] to-[#22c55e]",
 ];
 
-export default function SocialStrip() {
+interface InstagramPost {
+  id: string;
+  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  media_url?: string;
+  thumbnail_url?: string;
+  permalink: string;
+  caption?: string;
+  timestamp: string;
+}
+
+async function fetchInstagramPosts(): Promise<InstagramPost[]> {
+  const token = process.env.INSTAGRAM_ACCESS_TOKEN;
+  if (!token) return [];
+
+  try {
+    const res = await fetch(
+      `https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp&access_token=${token}&limit=9`,
+      { next: { revalidate: 3600 } }
+    );
+    if (!res.ok) return [];
+    const data = await res.json();
+    return (data.data ?? []) as InstagramPost[];
+  } catch {
+    return [];
+  }
+}
+
+export default async function SocialStrip() {
+  const posts = await fetchInstagramPosts();
+  const hasPosts = posts.length > 0;
+
   return (
     <section className="bg-white px-6 py-12">
       <div className="max-w-screen-xl mx-auto">
@@ -78,18 +108,60 @@ export default function SocialStrip() {
         </div>
 
         {/* Post grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
-          {GRADIENT_TILES.map((gradient, i) => (
-            <a
-              key={i}
-              href="https://instagram.com/kinetiq_app"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`View post ${i + 1} on Instagram`}
-              className={`block aspect-square bg-gradient-to-br ${gradient} hover:opacity-90 transition-opacity`}
-            />
-          ))}
-        </div>
+        {hasPosts ? (
+          <div className="grid grid-cols-3 gap-1.5">
+            {posts.slice(0, 9).map((post) => {
+              const imgSrc =
+                post.media_type === "VIDEO"
+                  ? post.thumbnail_url
+                  : post.media_url;
+
+              return (
+                <a
+                  key={post.id}
+                  href={post.permalink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={post.caption ? post.caption.slice(0, 60) : "View on Instagram"}
+                  className="block relative aspect-square overflow-hidden group bg-[#f8f8f8]"
+                >
+                  {imgSrc && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={imgSrc}
+                      alt={post.caption ? post.caption.slice(0, 100) : "Instagram post"}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  )}
+                  {post.media_type === "VIDEO" && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="bg-black/40 rounded-full w-10 h-10 flex items-center justify-center">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                          <polygon points="5,3 19,12 5,21" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                </a>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+            {GRADIENT_FALLBACK.map((gradient, i) => (
+              <a
+                key={i}
+                href="https://instagram.com/kinetiq_app"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View post ${i + 1} on Instagram`}
+                className={`block aspect-square bg-gradient-to-br ${gradient} hover:opacity-90 transition-opacity`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
