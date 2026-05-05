@@ -46,7 +46,8 @@ interface InstagramPost {
 }
 
 async function fetchInstagramPosts(): Promise<InstagramPost[]> {
-  const token = process.env.INSTAGRAM_ACCESS_TOKEN;
+  const { getInstagramToken } = await import("../../lib/instagram-token");
+  const token = await getInstagramToken();
   if (!token) return [];
 
   try {
