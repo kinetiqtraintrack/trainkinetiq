@@ -58,6 +58,11 @@ export default async function CollectionPage({ params }: Props) {
         <h1 className={`text-[clamp(2.5rem,7vw,5rem)] font-black tracking-tighter uppercase leading-none ${col.textColor}`}>
           {col.name}
         </h1>
+        {col.description && (
+          <p className={`mt-3 text-sm max-w-sm opacity-60 ${col.textColor}`}>
+            {col.description}
+          </p>
+        )}
       </div>
 
       {/* Products grid */}
