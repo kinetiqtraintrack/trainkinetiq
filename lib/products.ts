@@ -16,6 +16,7 @@ export interface Product {
   colors: ProductColor[];
   tag: string;
   images: string[];
+  searchTags?: string[];
 }
 
 const SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -37,6 +38,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["oversized", "baggy", "tee", "t-shirt", "cotton", "gym", "lifting", "heavyweight", "drop shoulder"],
   },
   {
     id: "obsidian-pump-cover-hoodie",
@@ -53,6 +55,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["oversized", "baggy", "hoodie", "zip", "pump cover", "pre-workout", "gym", "lifting", "warm"],
   },
   {
     id: "velocity-race-shorts",
@@ -70,6 +73,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["shorts", "running", "lightweight", "fast", "liner", "reflective", "athletic"],
   },
   {
     id: "velocity-wind-jacket",
@@ -86,6 +90,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["jacket", "windbreaker", "running", "lightweight", "packable", "water-resistant", "shell"],
   },
   {
     id: "forge-cargo-pants",
@@ -103,6 +108,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["pants", "cargo", "workwear", "pockets", "relaxed", "baggy", "tapered", "twill"],
   },
   {
     id: "forge-quarter-zip",
@@ -119,6 +125,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["quarter zip", "fleece", "midlayer", "zip", "warm", "thumb holes", "workwear"],
   },
   {
     id: "rest-day-lounge-hoodie",
@@ -136,6 +143,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["hoodie", "oversized", "baggy", "lounge", "cozy", "fleece", "soft", "relaxed"],
   },
   {
     id: "rest-day-sweat-shorts",
@@ -152,6 +160,7 @@ export const PRODUCTS: Product[] = [
     ],
     tag: "New Arrival",
     images: ["placeholder"],
+    searchTags: ["shorts", "sweat", "lounge", "cozy", "soft", "matching set", "elastic waist"],
   },
 ];
 

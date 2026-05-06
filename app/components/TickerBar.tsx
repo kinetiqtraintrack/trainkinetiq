@@ -4,13 +4,13 @@ export default function TickerBar() {
     "·",
     "Early access free forever — join before v2.0",
     "·",
-    "v1.7 now live",
+    "v1.7.5 now live",
     "·",
     "Free shipping over $75",
     "·",
     "Early access free forever — join before v2.0",
     "·",
-    "v1.7 now live",
+    "v1.7.5 now live",
     "·",
   ];
 
