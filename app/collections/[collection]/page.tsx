@@ -29,7 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CollectionPage({ params }: Props) {
   const { collection: slug } = await params;
-  const col = (await getSanityCollection(slug)) ?? getCollection(slug);
+  const staticCol = getCollection(slug);
+  const sanityCol = await getSanityCollection(slug);
+  const col = sanityCol
+    ? { ...staticCol, ...sanityCol, description: sanityCol.description || staticCol?.description || "" }
+    : staticCol;
   if (!col) notFound();
 
   const sanityProducts = await getSanityProductsByCollection(col.slug);
