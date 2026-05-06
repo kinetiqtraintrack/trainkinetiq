@@ -65,7 +65,7 @@ export default function SplitHero() {
           </h1>
           <a
             href="/collections/obsidian"
-            className="inline-flex items-center bg-white text-[#111] px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#22c55e] transition-colors"
+            className="inline-flex items-center bg-white text-[#111] px-6 py-3 text-xs font-bold uppercase tracking-widest min-h-[44px] flex items-center hover:bg-[#22c55e] transition-colors"
           >
             Shop Now
           </a>
@@ -84,7 +84,7 @@ export default function SplitHero() {
           </h2>
           <a
             href="/collections/restday"
-            className="inline-flex items-center bg-[#111] text-white px-6 py-3 text-xs font-bold uppercase tracking-widest hover:bg-[#333] transition-colors"
+            className="inline-flex items-center bg-[#111] text-white px-6 py-3 text-xs font-bold uppercase tracking-widest min-h-[44px] flex items-center hover:bg-[#333] transition-colors"
           >
             Shop Now
           </a>
