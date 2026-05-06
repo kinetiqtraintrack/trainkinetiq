@@ -66,7 +66,7 @@ function AppMockup() {
 
 export default function AppBanner() {
   return (
-    <section id="app-banner" className="bg-[#111] w-full py-16 md:py-24">
+    <section id="app" className="bg-[#111] w-full py-16 md:py-24">
       <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         {/* Left — copy */}
         <div>

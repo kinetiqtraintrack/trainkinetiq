@@ -65,7 +65,7 @@ export default function Nav() {
           {NAV_LINKS.map((link) => (
             <li key={link}>
               <Link
-                href={link === "Shop" ? "/collections/obsidian" : `#${link.toLowerCase()}`}
+                href={link === "Shop" ? "/collections/obsidian" : `/#${link.toLowerCase()}`}
                 className="uppercase text-xs font-bold tracking-widest text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] flex items-center"
               >
                 {link}
@@ -124,7 +124,7 @@ export default function Nav() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link}
-              href={link === "Shop" ? "/collections/obsidian" : `#${link.toLowerCase()}`}
+              href={link === "Shop" ? "/collections/obsidian" : `/#${link.toLowerCase()}`}
               onClick={() => setMobileOpen(false)}
               className="uppercase text-sm font-black tracking-widest text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] flex items-center"
             >
