@@ -71,9 +71,12 @@ export default function CollectionsGrid() {
               <span className={`block text-[10px] font-black uppercase tracking-[0.22em] mb-2 ${c.accentClass}`}>
                 {c.tag}
               </span>
-              <h3 className={`font-black text-[clamp(2rem,5vw,3.5rem)] leading-none tracking-tighter uppercase mb-5 ${c.textColor}`}>
+              <h3 className={`font-black text-[clamp(2rem,5vw,3.5rem)] leading-none tracking-tighter uppercase mb-2 ${c.textColor}`}>
                 {c.name}
               </h3>
+              <p className={`text-[11px] leading-snug mb-5 max-w-[180px] opacity-60 ${c.textColor}`}>
+                {c.description}
+              </p>
               <Link
                 href={`/collections/${c.slug}`}
                 className={`inline-flex items-center px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-colors ${c.btnClass}`}

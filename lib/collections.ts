@@ -4,6 +4,7 @@ export interface CollectionConfig {
   slug: CollectionSlug;
   name: string;
   tag: string;
+  description: string;
   bg: string;
   accent: string;
   textColor: string;
@@ -16,6 +17,7 @@ export const COLLECTIONS: CollectionConfig[] = [
     slug: "obsidian",
     name: "Obsidian",
     tag: "Lifting & Pump",
+    description: "Built for the bar. Heavy cotton, oversized cuts, zero compromise.",
     bg: "#0a0a0a",
     accent: "#22c55e",
     textColor: "text-white",
@@ -26,6 +28,7 @@ export const COLLECTIONS: CollectionConfig[] = [
     slug: "velocity",
     name: "Velocity",
     tag: "Speed & Run",
+    description: "Lightweight, fast-dry, reflective. Made to move at pace.",
     bg: "#0d1b2a",
     accent: "#00E5FF",
     textColor: "text-white",
@@ -36,6 +39,7 @@ export const COLLECTIONS: CollectionConfig[] = [
     slug: "forge",
     name: "Forge",
     tag: "Workwear",
+    description: "Durable gear for long days. Tough fabric, functional pockets.",
     bg: "#1a0f00",
     accent: "#f59e0b",
     textColor: "text-white",
@@ -46,6 +50,7 @@ export const COLLECTIONS: CollectionConfig[] = [
     slug: "restday",
     name: "Rest Day",
     tag: "Day to Day",
+    description: "Soft, relaxed, effortless. For the days between the grind.",
     bg: "#f0ede8",
     accent: "#111",
     textColor: "text-[#111]",
