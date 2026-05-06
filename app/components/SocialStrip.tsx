@@ -85,7 +85,7 @@ export default async function SocialStrip() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow on Instagram"
-              className="flex items-center gap-2 text-[#111] hover:text-[#22c55e] transition-colors"
+              className="flex items-center gap-2 text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] px-2"
             >
               <InstagramIcon />
               <span className="text-xs font-bold uppercase tracking-widest">
@@ -98,7 +98,7 @@ export default async function SocialStrip() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Follow on TikTok"
-              className="flex items-center gap-2 text-[#111] hover:text-[#22c55e] transition-colors"
+              className="flex items-center gap-2 text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] px-2"
             >
               <TikTokIcon />
               <span className="text-xs font-bold uppercase tracking-widest">
