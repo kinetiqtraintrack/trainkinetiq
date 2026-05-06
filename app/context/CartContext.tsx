@@ -21,6 +21,7 @@ interface CartContextValue {
   items: CartItem[];
   count: number;
   addItem: (item: CartItem) => void;
+  removeItem: (index: number) => void;
   isCartOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
@@ -30,6 +31,7 @@ const CartContext = createContext<CartContextValue>({
   items: [],
   count: 0,
   addItem: () => {},
+  removeItem: () => {},
   isCartOpen: false,
   openCart: () => {},
   closeCart: () => {},
@@ -60,12 +62,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const removeItem = useCallback((index: number) => {
+    setItems((prev) => {
+      const next = prev.filter((_, i) => i !== index);
+      try {
+        localStorage.setItem("kinetiq-cart", JSON.stringify(next));
+      } catch {
+        // ignore quota errors
+      }
+      return next;
+    });
+  }, []);
+
   return (
     <CartContext.Provider
       value={{
         items,
         count: items.length,
         addItem,
+        removeItem,
         isCartOpen,
         openCart: () => setIsCartOpen(true),
         closeCart: () => setIsCartOpen(false),

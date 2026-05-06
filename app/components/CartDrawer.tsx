@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useCart } from "../context/CartContext";
 
 export default function CartDrawer() {
-  const { items, isCartOpen, closeCart } = useCart();
+  const { items, isCartOpen, closeCart, removeItem } = useCart();
 
   // Close on Escape
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function CartDrawer() {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black/40 z-40"
+        className="fixed inset-0 bg-black/40 z-[60]"
         aria-hidden="true"
         onClick={closeCart}
       />
@@ -39,7 +39,7 @@ export default function CartDrawer() {
       <div
         role="dialog"
         aria-label="Shopping bag"
-        className="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-50 flex flex-col shadow-2xl"
+        className="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-[70] flex flex-col shadow-2xl"
       >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
@@ -105,9 +105,21 @@ export default function CartDrawer() {
                       {item.color} · {item.size}
                     </p>
                   </div>
-                  <span className="text-xs font-black text-[#111] shrink-0">
-                    ${item.price}
-                  </span>
+                  <div className="flex flex-col items-end gap-2 shrink-0">
+                    <span className="text-xs font-black text-[#111]">
+                      ${item.price}
+                    </span>
+                    <button
+                      onClick={() => removeItem(i)}
+                      aria-label={`Remove ${item.name}`}
+                      className="text-gray-300 hover:text-red-400 transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
