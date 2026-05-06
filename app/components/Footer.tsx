@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-screen-xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <a
           href="/"
-          className="font-black text-xl tracking-tighter text-[#111] uppercase"
+          className="font-black text-xl tracking-tighter text-[#111] uppercase min-h-[44px] flex items-center"
         >
           Kinetiq
         </a>
@@ -16,7 +16,7 @@ export default function Footer() {
               <li key={link}>
                 <a
                   href="#"
-                  className="text-[11px] font-bold uppercase tracking-widest text-gray-500 hover:text-[#111] transition-colors"
+                  className="text-[11px] font-bold uppercase tracking-widest text-gray-500 hover:text-[#111] transition-colors min-h-[44px] flex items-center"
                 >
                   {link}
                 </a>
