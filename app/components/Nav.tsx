@@ -56,7 +56,7 @@ export default function Nav() {
     <header className="bg-white sticky top-0 z-50 border-b border-gray-100">
       <nav className="max-w-screen-xl mx-auto px-6 flex items-center justify-between h-[60px]">
         {/* Logo — TODO: replace with <Image src="/logo.png"> once logo.png is committed */}
-        <Link href="/" className="font-black text-[22px] tracking-tighter text-[#111] uppercase">
+        <Link href="/" className="font-black text-[22px] tracking-tighter text-[#111] uppercase min-h-[44px] flex items-center">
           Kinetiq
         </Link>
 
@@ -66,7 +66,7 @@ export default function Nav() {
             <li key={link}>
               <Link
                 href={link === "Shop" ? "/collections/obsidian" : `#${link.toLowerCase()}`}
-                className="uppercase text-xs font-bold tracking-widest text-[#111] hover:text-[#22c55e] transition-colors"
+                className="uppercase text-xs font-bold tracking-widest text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] flex items-center"
               >
                 {link}
               </Link>
