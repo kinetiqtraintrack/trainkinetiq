@@ -17,7 +17,7 @@ function StarSelector({
           key={n}
           type="button"
           aria-label={`${n} star${n !== 1 ? "s" : ""}`}
-          className="text-2xl leading-none transition-transform hover:scale-110"
+          className="text-2xl leading-none transition-transform hover:scale-110 min-w-[44px] min-h-[44px] flex items-center justify-center"
           style={{ color: n <= (hovered || value) ? "#111" : "#d1d5db" }}
           onMouseEnter={() => setHovered(n)}
           onMouseLeave={() => setHovered(0)}
