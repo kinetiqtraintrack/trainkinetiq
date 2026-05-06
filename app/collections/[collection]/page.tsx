@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { COLLECTIONS, getCollection } from "../../../lib/collections";
 import { getProductsByCollection } from "../../../lib/products";
+import { getSanityCollections, getSanityCollection, getSanityProductsByCollection } from "../../../lib/sanity/queries";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 
@@ -11,7 +12,9 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return COLLECTIONS.map((c) => ({ collection: c.slug }));
+  const sanityCollections = await getSanityCollections();
+  const source = sanityCollections.length > 0 ? sanityCollections : COLLECTIONS;
+  return source.map((c) => ({ collection: c.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -26,10 +29,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CollectionPage({ params }: Props) {
   const { collection: slug } = await params;
-  const col = getCollection(slug);
+  const col = (await getSanityCollection(slug)) ?? getCollection(slug);
   if (!col) notFound();
 
-  const products = getProductsByCollection(col.slug);
+  const sanityProducts = await getSanityProductsByCollection(col.slug);
+  const products = sanityProducts.length > 0 ? sanityProducts : getProductsByCollection(col.slug);
 
   return (
     <>
@@ -64,26 +68,29 @@ export default async function CollectionPage({ params }: Props) {
           {products.map((p) => (
             <article key={p.slug} className="group">
               <Link href={`/products/${p.slug}`} className="block">
-                {/* Product image placeholder */}
+                {/* Product image */}
                 <div
                   className="relative w-full overflow-hidden mb-3"
                   style={{ backgroundColor: col.bg, aspectRatio: "3/4" }}
                 >
-                  {/* Minimal shape hint */}
-                  <svg
-                    className="absolute inset-0 w-full h-full opacity-[0.1]"
-                    viewBox="0 0 300 400"
-                    fill="none"
-                    aria-hidden="true"
-                    preserveAspectRatio="xMidYMid slice"
-                  >
-                    <ellipse cx="150" cy="80" rx="55" ry="60" fill={col.accent} />
-                    <rect x="85" y="134" width="130" height="160" rx="22" fill={col.accent} />
-                    <rect x="30" y="148" width="62" height="22" rx="11" fill={col.accent} transform="rotate(-14 30 148)" />
-                    <rect x="208" y="146" width="62" height="22" rx="11" fill={col.accent} transform="rotate(16 208 146)" />
-                    <rect x="103" y="288" width="44" height="104" rx="18" fill={col.accent} />
-                    <rect x="153" y="288" width="44" height="104" rx="18" fill={col.accent} />
-                  </svg>
+                  {p.images?.[0] ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.images[0]}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <svg className="absolute inset-0 w-full h-full opacity-[0.1]" viewBox="0 0 300 400" fill="none" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+                      <ellipse cx="150" cy="80" rx="55" ry="60" fill={col.accent} />
+                      <rect x="85" y="134" width="130" height="160" rx="22" fill={col.accent} />
+                      <rect x="30" y="148" width="62" height="22" rx="11" fill={col.accent} transform="rotate(-14 30 148)" />
+                      <rect x="208" y="146" width="62" height="22" rx="11" fill={col.accent} transform="rotate(16 208 146)" />
+                      <rect x="103" y="288" width="44" height="104" rx="18" fill={col.accent} />
+                      <rect x="153" y="288" width="44" height="104" rx="18" fill={col.accent} />
+                    </svg>
+                  )}
                 </div>
 
                 {/* Info */}

@@ -1,49 +1,51 @@
-import { NextResponse } from "next/server";
-import reviews from "../../../data/reviews.json";
+import { NextResponse, type NextRequest } from "next/server";
+import { getSanityReviews } from "../../../lib/sanity/queries";
+import { isSanityConfigured, sanityWriteClient } from "../../../lib/sanity/client";
 
-export async function GET() {
-  return NextResponse.json(reviews);
+async function getSeedReviews() {
+  try {
+    const data = await import("../../../data/reviews.json");
+    return data.default;
+  } catch {
+    return [];
+  }
 }
 
-export async function POST(request: Request) {
-  // NOTE: Vercel serverless has a read-only filesystem — writes to data/reviews.json
-  // will not persist in production. This endpoint returns a success response for the
-  // UI flow without persisting data.
-  // TODO: Connect to a database (e.g. Supabase, PlanetScale) for real persistence.
-  try {
-    const body = await request.json();
-    const { name, rating, text } = body;
-
-    if (
-      !name ||
-      typeof name !== "string" ||
-      name.trim().length === 0 ||
-      !text ||
-      typeof text !== "string" ||
-      text.trim().length === 0 ||
-      typeof rating !== "number" ||
-      rating < 1 ||
-      rating > 5
-    ) {
-      return NextResponse.json(
-        { error: "Invalid review data" },
-        { status: 400 }
-      );
-    }
-
-    const review = {
-      id: `r${Date.now()}`,
-      name: name.trim().slice(0, 100),
-      rating,
-      text: text.trim().slice(0, 1000),
-      date: new Date().toISOString().split("T")[0],
-    };
-
-    return NextResponse.json({ success: true, review }, { status: 201 });
-  } catch {
-    return NextResponse.json(
-      { error: "Invalid request body" },
-      { status: 400 }
-    );
+export async function GET() {
+  if (isSanityConfigured) {
+    const reviews = await getSanityReviews();
+    if (reviews.length > 0) return NextResponse.json(reviews);
   }
+  return NextResponse.json(await getSeedReviews());
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json().catch(() => null);
+
+  if (
+    !body ||
+    typeof body.name !== "string" ||
+    typeof body.rating !== "number" ||
+    typeof body.text !== "string"
+  ) {
+    return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+  }
+
+  const { name, rating, text } = body;
+
+  if (!name.trim() || rating < 1 || rating > 5 || text.trim().length < 10) {
+    return NextResponse.json({ error: "Validation failed" }, { status: 400 });
+  }
+
+  if (sanityWriteClient) {
+    await sanityWriteClient.create({
+      _type: "review",
+      name: name.trim(),
+      rating,
+      text: text.trim(),
+      approved: true,
+    });
+  }
+
+  return NextResponse.json({ success: true }, { status: 201 });
 }

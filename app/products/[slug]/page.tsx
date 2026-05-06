@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PRODUCTS, getProductBySlug } from "../../../lib/products";
 import { getCollection } from "../../../lib/collections";
+import { getSanityProductBySlug, getSanityProducts, getSanityCollection } from "../../../lib/sanity/queries";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import ProductDetail from "../../components/ProductDetail";
@@ -12,7 +13,9 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return PRODUCTS.map((p) => ({ slug: p.slug }));
+  const sanityProducts = await getSanityProducts();
+  const source = sanityProducts.length > 0 ? sanityProducts : PRODUCTS;
+  return source.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -27,10 +30,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = (await getSanityProductBySlug(slug)) ?? getProductBySlug(slug);
   if (!product) notFound();
 
-  const collection = getCollection(product.collection);
+  const collection =
+    (await getSanityCollection(product.collection)) ??
+    getCollection(product.collection);
   if (!collection) notFound();
 
   return (

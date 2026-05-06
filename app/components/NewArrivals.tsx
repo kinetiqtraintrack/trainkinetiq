@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PRODUCTS } from "../../lib/products";
 import { getCollection } from "../../lib/collections";
+import { getSanityProducts } from "../../lib/sanity/queries";
 
 // Feature one product from three different collections
 const FEATURED_SLUGS = [
@@ -43,10 +44,17 @@ const SHAPES: Record<string, React.ReactNode> = {
   ),
 };
 
-export default function NewArrivals() {
-  const featured = FEATURED_SLUGS.map((slug) =>
-    PRODUCTS.find((p) => p.slug === slug)
-  ).filter(Boolean) as NonNullable<(typeof PRODUCTS)[0]>[];
+export default async function NewArrivals() {
+  const sanityProducts = await getSanityProducts();
+  const allProducts = sanityProducts.length > 0 ? sanityProducts : PRODUCTS;
+
+  // Pick featured slugs if they exist, otherwise take first 3
+  const featured = FEATURED_SLUGS
+    .map((slug) => allProducts.find((p) => p.slug === slug))
+    .filter(Boolean)
+    .slice(0, 3) as NonNullable<typeof allProducts[0]>[];
+
+  const displayProducts = featured.length > 0 ? featured : allProducts.slice(0, 3);
 
   return (
     <section className="px-6 py-14">
@@ -59,7 +67,7 @@ export default function NewArrivals() {
         </p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
-        {featured.map((p) => {
+        {displayProducts.map((p) => {
           const col = getCollection(p.collection);
           const bg = col?.bg ?? "#111";
           const accent = col?.accent ?? "#22c55e";
@@ -73,7 +81,17 @@ export default function NewArrivals() {
                   className="relative w-full overflow-hidden mb-4"
                   style={{ backgroundColor: bg, aspectRatio: "3/4" }}
                 >
-                  {SHAPES[p.slug]}
+                  {(p as { images?: string[] }).images?.[0] ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={(p as { images?: string[] }).images![0]}
+                      alt={p.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    SHAPES[p.slug]
+                  )}
                   <div className="absolute bottom-4 left-4 z-10">
                     <span
                       className="text-[10px] font-black uppercase tracking-[0.2em] px-2 py-1"

@@ -6,7 +6,7 @@ import type { CollectionConfig } from "../../lib/collections";
 import { useCart } from "../context/CartContext";
 
 interface Props {
-  product: Product;
+  product: Product & { images?: string[] };
   collection: CollectionConfig;
 }
 
@@ -56,7 +56,16 @@ export default function ProductDetail({ product, collection }: Props) {
         className="relative w-full overflow-hidden"
         style={{ backgroundColor: collection.bg, aspectRatio: "3/4" }}
       >
-        <ProductShape collection={collection} />
+        {product.images?.[0] ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <ProductShape collection={collection} />
+        )}
         <div className="absolute bottom-6 left-6 z-10">
           <span
             className="text-[10px] font-black uppercase tracking-[0.2em] px-2.5 py-1.5"
