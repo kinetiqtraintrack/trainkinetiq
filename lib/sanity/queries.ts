@@ -62,6 +62,7 @@ const COLLECTION_FIELDS = `
   "slug": slug.current,
   name,
   tag,
+  description,
   bg,
   accent,
   textColor,
