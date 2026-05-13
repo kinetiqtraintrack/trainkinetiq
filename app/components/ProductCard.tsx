@@ -110,7 +110,7 @@ export default function ProductCard({
         >
           {images?.[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={images[0]} alt={name} className="w-full h-full object-cover" loading="lazy" />
+            <img src={images[0]} alt={name} className="w-full h-full object-contain p-3" loading="lazy" />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center p-8">
               <svg viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet" className="w-full h-full" style={{ opacity: 0.18 }} aria-hidden="true">

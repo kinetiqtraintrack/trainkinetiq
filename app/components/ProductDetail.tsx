@@ -216,7 +216,7 @@ export default function ProductDetail({ product, collection }: Props) {
             <img
               src={product.images[activeThumb] ?? product.images[0]}
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain p-4"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center p-12">
