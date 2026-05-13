@@ -180,26 +180,27 @@ export default function ProductDetail({ product, collection }: Props) {
     >
       {/* Left — thumbnail rail + main image */}
       <div className="flex gap-3">
-        {/* Thumbnail rail */}
-        <div className="flex flex-col gap-2 w-[72px] shrink-0">
-          {[0, 1, 2, 3].map((i) => (
-            <button
-              key={i}
-              onClick={() => setActiveThumb(i)}
-              className={`relative overflow-hidden rounded-[6px] border-2 transition-colors`}
-              style={{
-                aspectRatio: "1",
-                backgroundColor: collection.bg,
-                borderColor: activeThumb === i ? "#262626" : "#e5e7eb",
-              }}
-              aria-label={`View image ${i + 1}`}
-            >
-              <div className="absolute inset-0 flex items-center justify-center p-1">
-                <ProductSilhouette type={productType} fill={silhouetteFill} />
-              </div>
-            </button>
-          ))}
-        </div>
+        {/* Thumbnail rail — only shown when there are multiple images */}
+        {(product.images?.length ?? 0) > 1 && (
+          <div className="flex flex-col gap-2 w-[72px] shrink-0">
+            {product.images!.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveThumb(i)}
+                className="relative overflow-hidden rounded-[6px] border-2 transition-colors"
+                style={{
+                  aspectRatio: "1",
+                  backgroundColor: collection.bg,
+                  borderColor: activeThumb === i ? "#262626" : "#e5e7eb",
+                }}
+                aria-label={`View image ${i + 1}`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={src} alt="" aria-hidden="true" className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Main image */}
         <div
@@ -210,10 +211,10 @@ export default function ProductDetail({ product, collection }: Props) {
             borderRadius: "10px",
           }}
         >
-          {product.images?.[0] ? (
+          {product.images?.[activeThumb] || product.images?.[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={product.images[0]}
+              src={product.images[activeThumb] ?? product.images[0]}
               alt={product.name}
               className="w-full h-full object-cover"
             />
