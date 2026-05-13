@@ -14,6 +14,13 @@ export default defineType({
     defineField({ name: "textColor", title: "Text Color (Tailwind)", type: "string", description: "e.g. text-white or text-[#111]" }),
     defineField({ name: "btnClass", title: "Button Classes (Tailwind)", type: "string", description: "e.g. bg-white text-[#111] hover:bg-[#22c55e]" }),
     defineField({ name: "accentClass", title: "Accent Text Class (Tailwind)", type: "string", description: "e.g. text-[#22c55e]" }),
+    defineField({
+      name: "heroImage",
+      title: "Hero / Showcase Image",
+      type: "image",
+      options: { hotspot: true },
+      description: "Used as the background on the collection page and grid tile.",
+    }),
   ],
   preview: {
     select: { title: "name", subtitle: "tag" },

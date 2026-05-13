@@ -53,20 +53,33 @@ export default async function CollectionPage({ params }: Props) {
 
       {/* Collection header */}
       <div
-        className="w-full px-8 py-12 mb-10 relative overflow-hidden"
-        style={{ backgroundColor: col.bg }}
+        className="w-full px-8 py-16 mb-10 relative overflow-hidden"
+        style={{ backgroundColor: col.bg, minHeight: "260px" }}
       >
-        <span className={`text-[10px] font-black uppercase tracking-[0.25em] block mb-2 ${col.accentClass}`}>
-          {col.tag}
-        </span>
-        <h1 className={`text-[clamp(2.5rem,7vw,5rem)] font-black tracking-tighter uppercase leading-none ${col.textColor}`}>
-          {col.name}
-        </h1>
-        {col.description && (
-          <p className={`mt-3 text-sm max-w-sm opacity-60 ${col.textColor}`}>
-            {col.description}
-          </p>
+        {col.heroImage && (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={col.heroImage}
+              alt={col.name}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 60%, transparent 100%)" }} />
+          </>
         )}
+        <div className="relative z-10">
+          <span className={`text-[10px] font-black uppercase tracking-[0.25em] block mb-2 ${col.heroImage ? "text-white opacity-70" : col.accentClass}`}>
+            {col.tag}
+          </span>
+          <h1 className={`text-[clamp(2.5rem,7vw,5rem)] font-black tracking-tighter uppercase leading-none ${col.heroImage ? "text-white" : col.textColor}`}>
+            {col.name}
+          </h1>
+          {col.description && (
+            <p className={`mt-3 text-sm max-w-sm opacity-60 ${col.heroImage ? "text-white" : col.textColor}`}>
+              {col.description}
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Products grid */}

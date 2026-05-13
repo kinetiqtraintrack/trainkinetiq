@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { COLLECTIONS } from "../../lib/collections";
+import type { CollectionConfig } from "../../lib/collections";
+import { getSanityCollections } from "../../lib/sanity/queries";
 
 const SHAPES: Record<string, React.ReactNode> = {
   obsidian: (
@@ -48,7 +50,57 @@ const SHAPES: Record<string, React.ReactNode> = {
   ),
 };
 
-export default function CollectionsGrid() {
+function CollectionTile({ c }: { c: CollectionConfig }) {
+  const hasPhoto = !!c.heroImage;
+
+  return (
+    <div
+      key={c.slug}
+      className="relative flex flex-col justify-end p-8 md:p-10 overflow-hidden"
+      style={{ backgroundColor: c.bg, minHeight: "clamp(260px, 40vw, 480px)" }}
+    >
+      {hasPhoto ? (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={c.heroImage}
+            alt={c.name}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.25) 60%, transparent 100%)" }} />
+        </>
+      ) : (
+        SHAPES[c.slug]
+      )}
+      <div className="relative z-10">
+        <span className={`block text-[10px] font-black uppercase tracking-[0.22em] mb-2 ${hasPhoto ? "text-white opacity-70" : c.accentClass}`}>
+          {c.tag}
+        </span>
+        <h3 className={`font-black text-[clamp(2rem,5vw,3.5rem)] leading-none tracking-tighter uppercase mb-2 ${hasPhoto ? "text-white" : c.textColor}`}>
+          {c.name}
+        </h3>
+        <p className={`text-[11px] leading-snug mb-5 max-w-[180px] opacity-60 ${hasPhoto ? "text-white" : c.textColor}`}>
+          {c.description}
+        </p>
+        <Link
+          href={`/collections/${c.slug}`}
+          className={`inline-flex items-center px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-colors ${hasPhoto ? "bg-white text-[#262626] hover:bg-opacity-90" : c.btnClass}`}
+        >
+          Shop
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default async function CollectionsGrid() {
+  const sanityCollections = await getSanityCollections();
+
+  const collections = COLLECTIONS.map((staticCol) => {
+    const sanityCol = sanityCollections.find((s) => s.slug === staticCol.slug);
+    return sanityCol ? { ...staticCol, ...sanityCol } : staticCol;
+  });
+
   return (
     <section id="collections" className="w-full">
       <div className="px-6 pt-14 pb-4">
@@ -60,31 +112,8 @@ export default function CollectionsGrid() {
         </p>
       </div>
       <div className="grid grid-cols-2 gap-0">
-        {COLLECTIONS.map((c) => (
-          <div
-            key={c.slug}
-            className="relative flex flex-col justify-end p-8 md:p-10 overflow-hidden"
-            style={{ backgroundColor: c.bg, minHeight: "clamp(260px, 40vw, 480px)" }}
-          >
-            {SHAPES[c.slug]}
-            <div className="relative z-10">
-              <span className={`block text-[10px] font-black uppercase tracking-[0.22em] mb-2 ${c.accentClass}`}>
-                {c.tag}
-              </span>
-              <h3 className={`font-black text-[clamp(2rem,5vw,3.5rem)] leading-none tracking-tighter uppercase mb-2 ${c.textColor}`}>
-                {c.name}
-              </h3>
-              <p className={`text-[11px] leading-snug mb-5 max-w-[180px] opacity-60 ${c.textColor}`}>
-                {c.description}
-              </p>
-              <Link
-                href={`/collections/${c.slug}`}
-                className={`inline-flex items-center px-5 py-2.5 text-[11px] font-bold uppercase tracking-widest transition-colors ${c.btnClass}`}
-              >
-                Shop
-              </Link>
-            </div>
-          </div>
+        {collections.map((c) => (
+          <CollectionTile key={c.slug} c={c} />
         ))}
       </div>
     </section>

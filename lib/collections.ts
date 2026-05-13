@@ -13,6 +13,7 @@ export interface CollectionConfig {
   textColor: string;
   btnClass: string;
   accentClass: string;
+  heroImage?: string;
 }
 
 export const COLLECTIONS: CollectionConfig[] = [

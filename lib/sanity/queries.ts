@@ -73,7 +73,8 @@ const COLLECTION_FIELDS = `
   accent,
   textColor,
   btnClass,
-  accentClass
+  accentClass,
+  "heroImage": heroImage.asset->url
 `;
 
 export async function getSanityCollections(): Promise<CollectionConfig[]> {
