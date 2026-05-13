@@ -106,7 +106,7 @@ export default function ProductCard({
         {/* Image */}
         <div
           className="relative w-full overflow-hidden mb-3 rounded-[8px]"
-          style={{ backgroundColor: bg, aspectRatio: "3/4" }}
+          style={{ backgroundColor: "#ffffff", aspectRatio: "3/4" }}
         >
           {images?.[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
