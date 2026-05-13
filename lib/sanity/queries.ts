@@ -62,6 +62,25 @@ export async function getSanityProductsByCollection(collectionSlug: string): Pro
   }
 }
 
+export async function getSanityProductsByType(type: string): Promise<Product[]> {
+  if (!isSanityConfigured) return [];
+  try {
+    const filter =
+      type === "all"
+        ? `*[_type == "product"]`
+        : type === "hat"
+        ? `*[_type == "product" && type in ["hat-beanie", "hat-cap"]]`
+        : `*[_type == "product" && type == $type]`;
+    return await sanityClient.fetch(
+      `${filter} | order(name asc) { ${PRODUCT_FIELDS} }`,
+      { type },
+      { next: { tags: ["products"], revalidate: 60 } }
+    );
+  } catch {
+    return [];
+  }
+}
+
 // ─── Collections ──────────────────────────────────────────────────────────────
 
 const COLLECTION_FIELDS = `

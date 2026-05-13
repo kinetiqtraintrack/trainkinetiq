@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PRODUCTS, getProductsByType } from "../../../lib/products";
+import { getProductsByType } from "../../../lib/products";
 import { getCollection } from "../../../lib/collections";
+import { getSanityProductsByType } from "../../../lib/sanity/queries";
 import Nav from "../../components/Nav";
 import Footer from "../../components/Footer";
 import ProductCard from "../../components/ProductCard";
@@ -44,7 +45,8 @@ export default async function CategoryPage({ params }: Props) {
   if (!VALID_TYPES.includes(type)) notFound();
 
   const label = CATEGORY_LABELS[type];
-  const products = getProductsByType(type);
+  const sanityProducts = await getSanityProductsByType(type);
+  const products = sanityProducts.length > 0 ? sanityProducts : getProductsByType(type);
 
   return (
     <>
