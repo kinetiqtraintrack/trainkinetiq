@@ -30,7 +30,7 @@ export default async function SplitHero() {
           </>
         )}
         <div className="relative z-10">
-          <span className="inline-block text-[#84cc16] text-xs font-bold uppercase tracking-[0.2em] mb-3">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: obsidian?.heroImage ? "rgba(255,255,255,0.7)" : "#84cc16" }}>
             {obsidian?.tag ?? "Lifting & Pump"}
           </span>
           <h1 className="text-white font-black text-[clamp(3rem,8vw,6rem)] leading-none tracking-tighter uppercase mb-6">
