@@ -21,6 +21,13 @@ export default defineType({
       options: { hotspot: true },
       description: "Used as the background on the collection page and grid tile.",
     }),
+    defineField({
+      name: "showcaseImages",
+      title: "Showcase Images (hover cycle)",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+      description: "All lifestyle photos for this collection — cycles on hover.",
+    }),
   ],
   preview: {
     select: { title: "name", subtitle: "tag" },

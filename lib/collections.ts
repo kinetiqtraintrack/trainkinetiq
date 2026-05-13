@@ -14,6 +14,7 @@ export interface CollectionConfig {
   btnClass: string;
   accentClass: string;
   heroImage?: string;
+  showcaseImages?: string[];
 }
 
 export const COLLECTIONS: CollectionConfig[] = [
