@@ -190,7 +190,7 @@ export default function ProductDetail({ product, collection }: Props) {
                 className="relative overflow-hidden rounded-[6px] border-2 transition-colors"
                 style={{
                   aspectRatio: "1",
-                  backgroundColor: collection.bg,
+                  backgroundColor: "#ffffff",
                   borderColor: activeThumb === i ? "#262626" : "#e5e7eb",
                 }}
                 aria-label={`View image ${i + 1}`}
@@ -206,7 +206,7 @@ export default function ProductDetail({ product, collection }: Props) {
         <div
           className="relative flex-1 overflow-hidden"
           style={{
-            backgroundColor: collection.bg,
+            backgroundColor: "#ffffff",
             aspectRatio: "4/5",
             borderRadius: "10px",
           }}
