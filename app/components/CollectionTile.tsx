@@ -65,7 +65,7 @@ export default function CollectionTile({ c }: { c: CollectionConfig }) {
     if (!hasMultiple) return;
     intervalRef.current = setInterval(() => {
       setIdx((i) => (i + 1) % images.length);
-    }, 700);
+    }, 1800);
   }
 
   function handleLeave() {
@@ -89,7 +89,7 @@ export default function CollectionTile({ c }: { c: CollectionConfig }) {
               src={src}
               alt=""
               aria-hidden="true"
-              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+              className="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
               style={{ opacity: i === idx ? 1 : 0 }}
             />
           ))}
