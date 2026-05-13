@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import type { CollectionConfig } from "../../lib/collections";
 
@@ -59,17 +59,27 @@ export default function CollectionTile({ c }: { c: CollectionConfig }) {
   const hasMultiple = images.length > 1;
 
   const [idx, setIdx] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  function handleEnter() {
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     if (!hasMultiple) return;
-    intervalRef.current = setInterval(() => {
-      setIdx((i) => (i + 1) % images.length);
-    }, 1800);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const col = x < rect.width / 2 ? 0 : 1;
+    const row = y < rect.height / 2 ? 0 : 1;
+
+    let next = 0;
+    if (images.length >= 4) {
+      next = row * 2 + col;
+    } else if (images.length === 3) {
+      next = Math.min(Math.floor(x / (rect.width / 3)), 2);
+    } else {
+      next = col;
+    }
+    setIdx(Math.min(next, images.length - 1));
   }
 
   function handleLeave() {
-    if (intervalRef.current) clearInterval(intervalRef.current);
     setIdx(0);
   }
 
@@ -77,7 +87,7 @@ export default function CollectionTile({ c }: { c: CollectionConfig }) {
     <div
       className="relative flex flex-col justify-end p-8 md:p-10 overflow-hidden"
       style={{ backgroundColor: c.bg, minHeight: "clamp(260px, 40vw, 480px)" }}
-      onMouseEnter={handleEnter}
+      onMouseMove={handleMouseMove}
       onMouseLeave={handleLeave}
     >
       {hasPhotos ? (
