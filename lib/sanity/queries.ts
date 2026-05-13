@@ -14,7 +14,13 @@ const PRODUCT_FIELDS = `
   sizes,
   colors[] { name, hex },
   tag,
-  "images": images[].asset->url
+  "images": images[].asset->url,
+  type,
+  oos,
+  rating,
+  reviewCount,
+  fit,
+  fabric
 `;
 
 export async function getSanityProducts(): Promise<Product[]> {
