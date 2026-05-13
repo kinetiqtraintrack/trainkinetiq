@@ -1,3 +1,5 @@
+"use client";
+
 function AppMockup() {
   return (
     <div className="bg-[#1a1a1a] rounded-2xl p-5 w-full max-w-xs mx-auto shadow-2xl border border-[#2a2a2a]">
@@ -24,7 +26,6 @@ function AppMockup() {
 
       {/* Stats row */}
       <div className="grid grid-cols-2 gap-2">
-        {/* Sleep */}
         <div className="bg-[#111] rounded-xl p-3">
           <span className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold block mb-1">Sleep</span>
           <span className="text-white font-black text-2xl leading-none">7.8</span>
@@ -33,7 +34,6 @@ function AppMockup() {
             <div className="bg-[#A78BFA] h-1 rounded-full" style={{ width: "78%" }} />
           </div>
         </div>
-        {/* HRV */}
         <div className="bg-[#111] rounded-xl p-3">
           <span className="text-gray-400 text-[10px] uppercase tracking-wider font-semibold block mb-1">HRV</span>
           <span className="text-white font-black text-2xl leading-none">62</span>
@@ -70,7 +70,22 @@ export default function AppBanner() {
       <div className="max-w-screen-xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         {/* Left — copy */}
         <div>
-          <span className="inline-block text-[#22c55e] text-[11px] font-black uppercase tracking-[0.25em] mb-4">
+          <span className="eyebrow inline-flex items-center gap-2 text-[#84cc16] text-[11px] font-black uppercase tracking-[0.25em] mb-4">
+            <span
+              className="w-3.5 h-3.5 bg-current shrink-0"
+              style={{
+                WebkitMaskImage: "url('/logo-white.png')",
+                WebkitMaskSize: "contain",
+                WebkitMaskPosition: "center",
+                WebkitMaskRepeat: "no-repeat",
+                maskImage: "url('/logo-white.png')",
+                maskSize: "contain",
+                maskPosition: "center",
+                maskRepeat: "no-repeat",
+                marginBottom: "-2px",
+              }}
+              aria-hidden="true"
+            />
             Kinetiq App
           </span>
           <h2 className="text-white font-black text-[clamp(2rem,5vw,3.8rem)] leading-none tracking-tighter uppercase mb-6">
@@ -82,7 +97,7 @@ export default function AppBanner() {
           <ul className="space-y-2 mb-8">
             {["Training Battery", "Sleep Intelligence", "GPS Tracking"].map((feature) => (
               <li key={feature} className="flex items-center gap-2 text-gray-300 text-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] shrink-0" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#84cc16] shrink-0" />
                 {feature}
               </li>
             ))}
@@ -91,7 +106,14 @@ export default function AppBanner() {
             href="https://apps.apple.com/app/id6759758630"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center bg-[#22c55e] text-[#111] px-7 py-3.5 text-xs font-black uppercase tracking-widest hover:bg-[#16a34a] transition-colors"
+            className="inline-flex items-center text-white px-7 py-3.5 text-xs font-black uppercase tracking-widest rounded-[8px] transition-all"
+            style={{ background: "linear-gradient(135deg, #15803d 0%, #65a30d 100%)" }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "linear-gradient(135deg, #166534 0%, #4d7c0f 100%)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.background = "linear-gradient(135deg, #15803d 0%, #65a30d 100%)";
+            }}
           >
             Download Free
           </a>

@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useCart } from "../context/CartContext";
 import CartDrawer from "./CartDrawer";
 import SearchModal from "./SearchModal";
+import MegaMenu from "./MegaMenu";
 
 const APP_STORE_URL = "https://apps.apple.com/app/id6759758630";
-const NAV_LINKS = ["Shop", "App", "Reviews"];
 
 function SearchIcon() {
   return (
@@ -54,98 +54,156 @@ export default function Nav() {
 
   return (
     <>
-    <CartDrawer />
-    {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
-    <header className="bg-white sticky top-0 z-50 border-b border-gray-100">
-      <nav className="max-w-screen-xl mx-auto px-6 flex items-center justify-between h-[60px]">
-        {/* Logo — TODO: replace with <Image src="/logo.png"> once logo.png is committed */}
-        <Link href="/" className="font-black text-[22px] tracking-tighter text-[#111] uppercase min-h-[44px] flex items-center">
-          Kinetiq
-        </Link>
+      <CartDrawer />
+      {searchOpen && <SearchModal onClose={() => setSearchOpen(false)} />}
+      <header className="bg-white sticky top-0 z-50 border-b border-gray-100">
+        <nav className="max-w-screen-xl mx-auto px-6 flex items-center justify-between h-[60px]">
+          {/* Brand lockup — K mark + wordmark */}
+          <Link href="/" className="inline-flex items-center gap-2.5 min-h-[44px]">
+            <span
+              className="w-7 h-7 bg-[#262626] shrink-0"
+              style={{
+                WebkitMaskImage: "url('/logo-white.png')",
+                WebkitMaskSize: "contain",
+                WebkitMaskPosition: "center",
+                WebkitMaskRepeat: "no-repeat",
+                maskImage: "url('/logo-white.png')",
+                maskSize: "contain",
+                maskPosition: "center",
+                maskRepeat: "no-repeat",
+              }}
+              aria-hidden="true"
+            />
+            <span className="font-black text-[22px] tracking-tighter text-[#262626] uppercase">
+              Kinetiq
+            </span>
+          </Link>
 
-        {/* Desktop center links */}
-        <ul className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <li key={link}>
+          {/* Desktop center links */}
+          <ul className="hidden md:flex items-center gap-8">
+            <li>
+              <MegaMenu label="Shop" />
+            </li>
+            <li>
               <Link
-                href={link === "Shop" ? "/collections/obsidian" : `/#${link.toLowerCase()}`}
-                className="uppercase text-xs font-bold tracking-widest text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] flex items-center"
+                href="/#app"
+                className="uppercase text-xs font-bold tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
               >
-                {link}
+                App
               </Link>
             </li>
-          ))}
-        </ul>
+            <li>
+              <Link
+                href="/#reviews"
+                className="uppercase text-xs font-bold tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
+              >
+                Reviews
+              </Link>
+            </li>
+          </ul>
 
-        {/* Desktop right actions */}
-        <div className="hidden md:flex items-center gap-4">
-          <button onClick={() => setSearchOpen(true)} aria-label="Search" className="text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
-            <SearchIcon />
-          </button>
-          <button onClick={openCart} aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`} className="relative text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
-            <BagIcon />
-            {count > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-[#22c55e] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
-                {count > 9 ? "9+" : count}
-              </span>
-            )}
-          </button>
-          <a
-            href={APP_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center bg-[#111] text-white px-5 py-2 text-xs font-bold uppercase tracking-widest hover:bg-[#222] transition-colors min-h-[44px]"
-          >
-            Download
-          </a>
-        </div>
-
-        {/* Mobile right actions */}
-        <div className="flex md:hidden items-center gap-2">
-          <button onClick={openCart} aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`} className="relative text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center">
-            <BagIcon />
-            {count > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-[#22c55e] text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none">
-                {count > 9 ? "9+" : count}
-              </span>
-            )}
-          </button>
-          <button
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((v) => !v)}
-            className="text-[#111] min-h-[44px] min-w-[44px] flex items-center justify-center"
-          >
-            {mobileOpen ? <CloseIcon /> : <MenuIcon />}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-6 py-6 flex flex-col gap-5">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link}
-              href={link === "Shop" ? "/collections/obsidian" : `/#${link.toLowerCase()}`}
-              onClick={() => setMobileOpen(false)}
-              className="uppercase text-sm font-black tracking-widest text-[#111] hover:text-[#22c55e] transition-colors min-h-[44px] flex items-center"
+          {/* Desktop right actions */}
+          <div className="hidden md:flex items-center gap-4">
+            <button
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search"
+              className="text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
-              {link}
+              <SearchIcon />
+            </button>
+            <button
+              onClick={openCart}
+              aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`}
+              className="relative text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              <BagIcon />
+              {count > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none" style={{ background: "linear-gradient(135deg, #15803d 0%, #65a30d 100%)" }}>
+                  {count > 9 ? "9+" : count}
+                </span>
+              )}
+            </button>
+            <a
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-white px-5 py-2 text-xs font-bold uppercase tracking-widest rounded-[8px] min-h-[44px] transition-all"
+              style={{ background: "linear-gradient(135deg, #15803d 0%, #65a30d 100%)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background =
+                  "linear-gradient(135deg, #166534 0%, #4d7c0f 100%)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background =
+                  "linear-gradient(135deg, #15803d 0%, #65a30d 100%)";
+              }}
+            >
+              Download
+            </a>
+          </div>
+
+          {/* Mobile right actions */}
+          <div className="flex md:hidden items-center gap-2">
+            <button
+              onClick={openCart}
+              aria-label={`Shopping bag, ${count} item${count !== 1 ? "s" : ""}`}
+              className="relative text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              <BagIcon />
+              {count > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center leading-none" style={{ background: "linear-gradient(135deg, #15803d 0%, #65a30d 100%)" }}>
+                  {count > 9 ? "9+" : count}
+                </span>
+              )}
+            </button>
+            <button
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              onClick={() => setMobileOpen((v) => !v)}
+              className="text-[#262626] min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              {mobileOpen ? <CloseIcon /> : <MenuIcon />}
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile drawer */}
+        {mobileOpen && (
+          <div className="md:hidden bg-white border-t border-gray-100 px-6 py-6 flex flex-col gap-5">
+            <Link
+              href="/collections/obsidian"
+              onClick={() => setMobileOpen(false)}
+              className="uppercase text-sm font-black tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
+            >
+              Shop
             </Link>
-          ))}
-          <a
-            href={APP_STORE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMobileOpen(false)}
-            className="inline-flex items-center justify-center bg-[#111] text-white px-5 py-3 text-xs font-black uppercase tracking-widest hover:bg-[#222] transition-colors min-h-[44px]"
-          >
-            Download App
-          </a>
-        </div>
-      )}
-    </header>
+            <Link
+              href="/#app"
+              onClick={() => setMobileOpen(false)}
+              className="uppercase text-sm font-black tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
+            >
+              App
+            </Link>
+            <Link
+              href="/#reviews"
+              onClick={() => setMobileOpen(false)}
+              className="uppercase text-sm font-black tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
+            >
+              Reviews
+            </Link>
+            <a
+              href={APP_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex items-center justify-center text-white px-5 py-3 text-xs font-black uppercase tracking-widest rounded-[8px] min-h-[44px] transition-all"
+              style={{ background: "linear-gradient(135deg, #15803d 0%, #65a30d 100%)" }}
+            >
+              Download App
+            </a>
+          </div>
+        )}
+      </header>
     </>
   );
 }
