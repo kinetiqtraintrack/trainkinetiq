@@ -9,12 +9,13 @@ export const metadata: Metadata = {
   description: "The story behind Kinetiq — one app, one brand, built for the athlete who trains like it's a job.",
 };
 
-const FALLBACK_MISSION = "One app. One brand. Built for the athlete who trains like it’s a job.";
+const FALLBACK_MISSION = "One app. One brand. Built for the athlete who trains like it's a job.";
 
 const FALLBACK_STORY = [
-  "I got tired of juggling five different apps just to track a workout. So I built my own — one place for every program, every session, every PR.",
-  "Then came the clothes. Most of what was out there was either too expensive, too thin, or cut for someone who’d never touched a barbell. Nothing fit right, nothing lasted.",
-  "So I designed my own. Kinetiq started as a solution to my own problems — and it turned out a lot of other people had the same ones.",
+  "I got tired of juggling five different apps just to track a workout — Strava for runs, Runna for run training, Hevy for lifts, Whoop for recovery, Apple Fitness+ for everything else. None of them talked to each other. So I built my own — one place for every program, every session, every PR.",
+  "I work construction. I'm also about to have twin boys. Time is not something I have a lot of. So every minute I spent switching between apps, re-entering data, or waiting for a sync felt personal. That frustration is what built this.",
+  "Then came the clothes. Most of what was out there was either too expensive, too thin, or cut for someone who'd never touched a barbell. Nothing fit right, nothing lasted. So I designed my own.",
+  "Kinetiq started as a solution to my own problems — built on nights and weekends, whether that's 5am before a shift or 9pm after one. Turns out a lot of other people had the same ones.",
 ];
 
 const FALLBACK_VALUES_HEADLINE = "What We Stand For";
@@ -22,7 +23,7 @@ const FALLBACK_VALUES_HEADLINE = "What We Stand For";
 const VALUES = [
   {
     name: "Train Smarter",
-    description: "One app, everything in it. No more fragmented stack.",
+    description: "One app, everything in it. No more fragmented stack — your training, recovery, sleep, and gear all in one place.",
   },
   {
     name: "Built Different",
@@ -30,7 +31,7 @@ const VALUES = [
   },
   {
     name: "Made to Move",
-    description: "Every piece engineered for the gym floor, not the photo shoot.",
+    description: "Every piece engineered for the gym floor, not the photo shoot. Built for the person training at 5am or 9pm — not for the highlight reel.",
   },
 ];
 
@@ -62,7 +63,7 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        {/* Story */}
+        {/* The Origin */}
         <section className="bg-[#f8f8f8]">
           <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-20">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-gray-400 mb-6">
@@ -78,8 +79,28 @@ export default async function AboutPage() {
           </div>
         </section>
 
-        {/* Values */}
+        {/* The Community */}
         <section className="bg-white">
+          <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-20">
+            <p className="text-[10px] font-black uppercase tracking-[0.22em] text-gray-400 mb-6">
+              The Community
+            </p>
+            <div className="max-w-2xl">
+              <h2
+                className="font-black uppercase tracking-tighter text-[#262626] mb-6"
+                style={{ fontSize: "clamp(1.6rem, 4vw, 2.4rem)", lineHeight: 1.1 }}
+              >
+                Built for people who actually show up.
+              </h2>
+              <p className="text-base font-medium text-[#262626] leading-relaxed">
+                Whether you&apos;re in the gym before the sun comes up or squeezing in a session after a full day — Kinetiq is for you. Early users get all Pro features free until v2.0 launches. After that, you&apos;re grandfathered in for good. Get in before it changes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* What We Stand For */}
+        <section className="bg-[#f8f8f8]">
           <div className="max-w-screen-xl mx-auto px-6 py-16 md:py-20">
             <p className="text-[10px] font-black uppercase tracking-[0.22em] text-gray-400 mb-10">
               {valuesHeadline}
