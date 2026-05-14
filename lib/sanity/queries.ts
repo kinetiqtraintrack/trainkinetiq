@@ -123,6 +123,27 @@ export async function getSanityCollection(slug: string): Promise<CollectionConfi
   }
 }
 
+// ─── About ────────────────────────────────────────────────────────────────────
+
+export interface AboutContent {
+  mission?: string;
+  story?: string;
+  valuesHeadline?: string;
+}
+
+export async function getSanityAbout(): Promise<AboutContent | null> {
+  if (!isSanityConfigured) return null;
+  try {
+    return await sanityClient.fetch(
+      `*[_type == "about"][0] { mission, story, valuesHeadline }`,
+      {},
+      { next: { tags: ["about"], revalidate: 3600 } }
+    );
+  } catch {
+    return null;
+  }
+}
+
 // ─── Reviews ──────────────────────────────────────────────────────────────────
 
 export interface SanityReview {

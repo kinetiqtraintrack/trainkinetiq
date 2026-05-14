@@ -80,7 +80,7 @@ export default function Nav() {
           </Link>
 
           {/* Desktop center links */}
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className="hidden md:flex items-center gap-6 lg:gap-8">
             <li>
               <MegaMenu label="Shop" />
             </li>
@@ -98,6 +98,14 @@ export default function Nav() {
                 className="uppercase text-xs font-bold tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
               >
                 Reviews
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/about"
+                className="uppercase text-xs font-bold tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
+              >
+                About
               </Link>
             </li>
           </ul>
@@ -190,6 +198,13 @@ export default function Nav() {
               className="uppercase text-sm font-black tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
             >
               Reviews
+            </Link>
+            <Link
+              href="/about"
+              onClick={() => setMobileOpen(false)}
+              className="uppercase text-sm font-black tracking-widest text-[#262626] hover:text-[#15803d] transition-colors min-h-[44px] flex items-center"
+            >
+              About
             </Link>
             <a
               href={APP_STORE_URL}

@@ -57,6 +57,14 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href="/about"
+                  className="text-[11px] font-bold uppercase tracking-widest text-gray-500 hover:text-[#262626] transition-colors min-h-[44px] flex items-center"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
                   href="#"
                   className="text-[11px] font-bold uppercase tracking-widest text-gray-500 hover:text-[#262626] transition-colors min-h-[44px] flex items-center"
                 >
